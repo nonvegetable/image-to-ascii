@@ -45,6 +45,8 @@ public class App {
 
         String ramp = ".'^,:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
 
+        double[][] brightnessValues = new double[newWidth][newHeight];
+
         for(int y = 0; y < newHeight; y++){
             for(int x = 0; x < newWidth; x++){
                 int pixelColor = newImage.getRGB(x, y);
@@ -52,12 +54,16 @@ public class App {
                 int red = color.getRed();
                 int green = color.getGreen();
                 int blue = color.getBlue();
-
                 double brightness = (double) 0.299 * red + 0.587 * green + 0.114 * blue;
-
+                
                 int mapping = (int) (brightness * (ramp.length() - 1) / 255);
+                char asciiChar = ramp.charAt(mapping);
+                String colorStart = "\u001b[38;2;" + red + ";" + green + ";" + blue + "m";
+                String colorReset = "\u001b[0m";
 
-                System.out.print(ramp.charAt(mapping));
+                brightnessValues[x][y] = brightness;
+
+                System.out.print(colorStart + asciiChar + colorReset);
             }
 
             System.out.println();
