@@ -1,5 +1,7 @@
 package com.mycompany.app; 
+
 import java.awt.Graphics2D;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +42,27 @@ public class App {
         g2d.drawImage(image, 0, 0, newWidth, newHeight, null);
 
         System.out.println("Resized to: " + newImage.getWidth() + "x" + newImage.getHeight());
+
+        String ramp = ".'^,:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+
+        for(int y = 0; y < newHeight; y++){
+            for(int x = 0; x < newWidth; x++){
+                int pixelColor = newImage.getRGB(x, y);
+                Color color = new Color(pixelColor);
+                int red = color.getRed();
+                int green = color.getGreen();
+                int blue = color.getBlue();
+
+                double brightness = (double) 0.299 * red + 0.587 * green + 0.114 * blue;
+
+                int mapping = (int) (brightness * (ramp.length() - 1) / 255);
+
+                System.out.print(ramp.charAt(mapping));
+            }
+
+            System.out.println();
+        }
+
 
     }
 }
